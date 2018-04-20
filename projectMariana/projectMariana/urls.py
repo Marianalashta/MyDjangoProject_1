@@ -17,9 +17,18 @@ from django.contrib import admin
 from django.urls import path
 from diagnose.views import PostListView
 from diagnose.views import PostDetailView
+from diagnose.views import PostCreateView
+from diagnose.views import UpdatePostView
+from diagnose.views import DeletePostView
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',PostListView.as_view(),name='post-list'),
-    path('<pk>/',PostDetailView.as_view(),name='post_detail_url')
-]
+    path('',PostListView.as_view(),name='list_posts'),
+    path('create/',PostCreateView.as_view(),name='post_create'),
+    path('<pk>/',PostDetailView.as_view(),name='post_detail_url'),
+    path('<pk>/update/',UpdatePostView.as_view(),name='post_update'),
+    path('<pk>/delete',DeletePostView.as_view(),name='post_delete'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
